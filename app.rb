@@ -1,5 +1,10 @@
 require 'sinatra'
 
 get '/' do
-  erb :"home.html"
+  erb :"home"
+end
+
+
+get '/form' do
+  erb :"form"
 end
