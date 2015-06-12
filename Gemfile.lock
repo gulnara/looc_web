@@ -10,6 +10,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    bcrypt-ruby (3.0.1)
     bson (1.12.3)
     bson_ext (1.12.3)
       bson (~> 1.12.3)
@@ -41,11 +42,14 @@ GEM
     tilt (2.0.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    warden (1.2.3)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt-ruby (= 3.0.1)
   bson
   bson_ext
   mongo
@@ -53,3 +57,4 @@ DEPENDENCIES
   sinatra
   sinatra-flash
   sinatra-redirect-with-flash
+  warden (= 1.2.3)
