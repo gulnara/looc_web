@@ -82,14 +82,6 @@ class Looc < Sinatra::Base
     redirect '/'
   end
 
-  # post '/auth/unauthenticated' do
-  #   session[:return_to] = env['warden.options'][:attempted_path] if session[:return_to].nil?
-
-  #   # Set the error and use a fallback if the message is not defined
-  #   flash[:error] = env['warden.options'][:message] || "You must log in"
-  #   redirect '/auth/login'
-  # end
-
   post '/unauthenticated/?' do 
     erb :login
   end
@@ -97,7 +89,6 @@ class Looc < Sinatra::Base
   get '/form' do
     env['warden'].authenticate!
     @user = current_user
-    puts @user
     erb :form
   end
 
