@@ -18,23 +18,24 @@ require './models/user'
 
 Warden::Strategies.add(:password) do
   def valid?
-    params['email'] && params['password']
+    params['email'] || params['password']
   end
 
   def authenticate!
-  	users= User.all
-    user = users.select{|a| a.email==params["email"]}
+  	# users= User.all
+    # user = users.select{|a| a.email==params["email"]}
 
-    if user.nil?
-    	puts "The username you entered does not exist."
-      throw(:warden, message: "The username you entered does not exist.")
+    # if user.nil?
+    # 	puts "The username you entered does not exist."
+    #   throw(:warden, message: "The username you entered does not exist.")
       
-    elsif user.authenticate(params["password"])
+    if user = User.authenticate(params['email'], params['password'])
+    	puts "loged in "
       success!(user)
     else
     	puts "The username and password combination "
       throw(:warden, message: "The username and password combination ")
-
+      fail!
     end
   end
 end
@@ -86,7 +87,7 @@ class Looc < Sinatra::Base
 
     if session[:return_to].nil?
     	puts "you are loged in"
-      redirect '/'
+      redirect '/form'
     else
       redirect session[:return_to]
       puts "you are not loged in"
@@ -108,24 +109,29 @@ class Looc < Sinatra::Base
     redirect '/auth/login'
   end
 
-  get '/protected' do
-    env['warden'].authenticate!
+  get '/form' do
+    # env['warden'].authenticate!
 
     erb :form
   end
+
+ #  post '/auth/login'do
+	#   @user = User.find_by_email(params[:email])
+	#   if @user.password == params[:password]
+	#     give_token
+	#   else
+	#     redirect '/form'
+	#   end
+
+	# end
+
+	# get '/form' do
+	#   erb :"form"
+	# end
 end
-# post '/'do
-#   @user = User.find_by_email(params[:email])
-#   if @user.password == params[:password]
-#     give_token
-#   else
-#     redirect '/form'
-#   end
-
-# end
 
 
-# get '/form' do
-#   erb :"form"
-# end
+
+
+
 

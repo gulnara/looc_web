@@ -9,32 +9,24 @@ class User
 
 	key :email, String, required: true,  unique: true
 	key :name, String, required: true
-	key :password, String, required: true
-	key :password_hash, String, required: true
+	key :encrypted_password, String
+  timestamps!
 
-  def password
-    @password ||= Password.new(password_hash)
+  def encrypted_password
+    @bcrypt_pw = read_attribute(:encrypted_password)
+    @bcrypt_pw.nil? ? nil : ::BCrypt::Password.new(@bcrypt_pw)
   end
 
-  def password=(new_password)
-    @password = Password.create(new_password)
-    self.password_hash = @password
+  def password=(pw)
+    @password = pw 
+    self.encrypted_password = pw.nil? ? nil : ::BCrypt::Password.create(pw)
   end
 
-	# def self.authenticate(requested_email, requested_password)
-	# 	u = self.find_by_email(requested_email)
-	# 	u if u && u.password_hash == requested_password
- #  end
-
-
-
-  def self.authenticate(attempted_password)
-    if self.password == attempted_password
-      true
-    else
-      false
-    end
+  def self.authenticate(email, password)
+    @u = User.first(email: email)
+    @u && @u.encrypted_password == password ? @u : nil
   end
+
 
 
 end
