@@ -14,6 +14,9 @@ mongo_url = ENV['MONGOLAB_URI'] || 'mongodb://localhost/looc'
 MongoMapper.connection = Mongo::Connection.from_uri mongo_url
 MongoMapper.database = URI.parse(mongo_url).path.gsub(/^\//, '') 
 require './models/user'
+require './helpers/warden_helpers'
+
+include WardenHelpers
 
 
 Warden::Strategies.add(:password) do
@@ -22,12 +25,6 @@ Warden::Strategies.add(:password) do
   end
 
   def authenticate!
-  	# users= User.all
-    # user = users.select{|a| a.email==params["email"]}
-
-    # if user.nil?
-    # 	puts "The username you entered does not exist."
-    #   throw(:warden, message: "The username you entered does not exist.")
       
     if user = User.authenticate(params['email'], params['password'])
     	puts "loged in "
@@ -46,31 +43,15 @@ class Looc < Sinatra::Base
   register Sinatra::Flash
   set :session_secret, "supersecret"
 
-  use Warden::Manager do |config|
-    # Tell Warden how to save our User info into a session.
-    # Sessions can only take strings, not Ruby code, we'll store
-    # the User's `id`
-    config.serialize_into_session{|user| user.id }
-    # Now tell Warden how to take what we've stored in the session
-    # and get a User from that information.
-    config.serialize_from_session{|id| User.get(id) }
-
-    config.scope_defaults :default,
-      # "strategies" is an array of named methods with which to
-      # attempt authentication. We have to define this later.
-      strategies: [:password],
-      # The action is a route to send the user to when
-      # warden.authenticate! returns a false answer. We'll show
-      # this route below.
-      action: 'auth/unauthenticated'
-    # When a user tries to log in and cannot, this specifies the
-    # app to send the user to.
-    config.failure_app = self
+  use Warden::Manager do |manager|
+    manager.default_strategies :password
+    manager.failure_app = self
   end
 
   Warden::Manager.before_failure do |env,opts|
     env['REQUEST_METHOD'] = 'POST'
   end
+
 
   get '/' do
     erb :home
@@ -111,23 +92,11 @@ class Looc < Sinatra::Base
 
   get '/form' do
     # env['warden'].authenticate!
-
+    @user = current_user
+    puts @user
     erb :form
   end
 
- #  post '/auth/login'do
-	#   @user = User.find_by_email(params[:email])
-	#   if @user.password == params[:password]
-	#     give_token
-	#   else
-	#     redirect '/form'
-	#   end
-
-	# end
-
-	# get '/form' do
-	#   erb :"form"
-	# end
 end
 
 
