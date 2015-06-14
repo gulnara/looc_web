@@ -15,6 +15,8 @@ GEM
     bson_ext (1.12.3)
       bson (~> 1.12.3)
     builder (3.2.2)
+    daemons (1.2.2)
+    eventmachine (1.0.7)
     i18n (0.7.0)
     json (1.8.3)
     minitest (5.7.0)
@@ -38,6 +40,10 @@ GEM
       sinatra (>= 1.0.0)
     sinatra-redirect-with-flash (0.2.1)
       sinatra (>= 1.0.0)
+    thin (1.6.3)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0)
+      rack (~> 1.0)
     thread_safe (0.3.5)
     tilt (2.0.1)
     tzinfo (1.2.2)
@@ -57,4 +63,5 @@ DEPENDENCIES
   sinatra
   sinatra-flash
   sinatra-redirect-with-flash
+  thin
   warden (= 1.2.3)

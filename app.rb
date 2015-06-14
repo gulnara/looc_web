@@ -18,92 +18,102 @@ require './models/user'
 
 Warden::Strategies.add(:password) do
   def valid?
-    params['user'] && params[:email] && params[:password]
+    params['email'] && params['password']
   end
 
   def authenticate!
-    user = User.first(email: params[:email])
+  	users= User.all
+    user = users.select{|a| a.email==params["email"]}
 
     if user.nil?
+    	puts "The username you entered does not exist."
       throw(:warden, message: "The username you entered does not exist.")
-    elsif user.authenticate(params[:password])
+      
+    elsif user.authenticate(params["password"])
       success!(user)
     else
+    	puts "The username and password combination "
       throw(:warden, message: "The username and password combination ")
+
     end
   end
 end
 
-enable :sessions
-register Sinatra::Flash
-set :session_secret, "supersecret"
 
-use Warden::Manager do |config|
-  # Tell Warden how to save our User info into a session.
-  # Sessions can only take strings, not Ruby code, we'll store
-  # the User's `id`
-  config.serialize_into_session{|user| user.id }
-  # Now tell Warden how to take what we've stored in the session
-  # and get a User from that information.
-  config.serialize_from_session{|id| User.get(id) }
+class Looc < Sinatra::Base
+  enable :sessions
+  register Sinatra::Flash
+  set :session_secret, "supersecret"
 
-  config.scope_defaults :default,
-    # "strategies" is an array of named methods with which to
-    # attempt authentication. We have to define this later.
-    strategies: [:password],
-    # The action is a route to send the user to when
-    # warden.authenticate! returns a false answer. We'll show
-    # this route below.
-    action: 'unauthenticated'
-  # When a user tries to log in and cannot, this specifies the
-  # app to send the user to.
-  config.failure_app = self
-end
+  use Warden::Manager do |config|
+    # Tell Warden how to save our User info into a session.
+    # Sessions can only take strings, not Ruby code, we'll store
+    # the User's `id`
+    config.serialize_into_session{|user| user.id }
+    # Now tell Warden how to take what we've stored in the session
+    # and get a User from that information.
+    config.serialize_from_session{|id| User.get(id) }
 
-Warden::Manager.before_failure do |env,opts|
-  env['REQUEST_METHOD'] = 'POST'
-end
+    config.scope_defaults :default,
+      # "strategies" is an array of named methods with which to
+      # attempt authentication. We have to define this later.
+      strategies: [:password],
+      # The action is a route to send the user to when
+      # warden.authenticate! returns a false answer. We'll show
+      # this route below.
+      action: 'auth/unauthenticated'
+    # When a user tries to log in and cannot, this specifies the
+    # app to send the user to.
+    config.failure_app = self
+  end
 
-get '/' do
-  erb :"home"
-end
+  Warden::Manager.before_failure do |env,opts|
+    env['REQUEST_METHOD'] = 'POST'
+  end
 
+  get '/' do
+    erb :home
+  end
 
-post '/' do
-  env['warden'].authenticate!
+  get '/auth/login' do
+    erb :login
+  end
 
-  flash[:success] = env['warden'].message
+  post '/auth/login' do
+    env['warden'].authenticate!
 
-  if session[:return_to].nil?
-    redirect '/form'
-  else
-    redirect session[:return_to]
+    flash[:success] = env['warden'].message
+
+    if session[:return_to].nil?
+    	puts "you are loged in"
+      redirect '/'
+    else
+      redirect session[:return_to]
+      puts "you are not loged in"
+    end
+  end
+
+  get '/auth/logout' do
+    env['warden'].raw_session.inspect
+    env['warden'].logout
+    flash[:success] = 'Successfully logged out'
+    redirect '/'
+  end
+
+  post '/auth/unauthenticated' do
+    session[:return_to] = env['warden.options'][:attempted_path] if session[:return_to].nil?
+
+    # Set the error and use a fallback if the message is not defined
+    flash[:error] = env['warden.options'][:message] || "You must log in"
+    redirect '/auth/login'
+  end
+
+  get '/protected' do
+    env['warden'].authenticate!
+
+    erb :form
   end
 end
-
-get '/logout' do
-  env['warden'].raw_session.inspect
-  env['warden'].logout
-  flash[:success] = 'Successfully logged out'
-  redirect '/'
-end
-
-post '/unauthenticated' do
-  session[:return_to] = env['warden.options'][:attempted_path] if session[:return_to].nil?
-
-  # Set the error and use a fallback if the message is not defined
-  flash[:error] = env['warden.options'][:message] || "You must log in"
-  redirect '/'
-end
-
-get '/form' do
-  env['warden'].authenticate!
-
-  erb :"form"
-end
-
-
-
 # post '/'do
 #   @user = User.find_by_email(params[:email])
 #   if @user.password == params[:password]
