@@ -14,6 +14,7 @@ mongo_url = ENV['MONGOLAB_URI'] || 'mongodb://localhost/looc'
 MongoMapper.connection = Mongo::Connection.from_uri mongo_url
 MongoMapper.database = URI.parse(mongo_url).path.gsub(/^\//, '') 
 require './models/user'
+require './models/data'
 require './helpers/warden_helpers'
 
 include WardenHelpers
@@ -90,6 +91,10 @@ class Looc < Sinatra::Base
     env['warden'].authenticate!
     @user = current_user
     erb :form
+  end
+
+  post '/form' do
+
   end
 
 end
