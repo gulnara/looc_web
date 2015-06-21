@@ -95,7 +95,6 @@ class Looc < Sinatra::Base
 
   post '/form' do
 
-    puts 
 	  data = PicData.new({
 	   :pic_name => params[:pic_name], 
 		 :main_categories => params[:main_categories], 
