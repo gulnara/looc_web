@@ -38,14 +38,35 @@ Warden::Strategies.add(:password) do
   end
 end
 
+# Implement your Warden stratagey to validate and authorize the access_token.
+Warden::Strategies.add(:access_token) do
+    def valid?
+        # Validate that the access token is properly formatted.
+        # Currently only checks that it's actually a string.
+        request.env["HTTP_ACCESS_TOKEN"].is_a?(String)
+    end
+
+    def authenticate!
+        # Authorize request if HTTP_ACCESS_TOKEN matches 'youhavenoprivacyandnosecrets'
+        # Your actual access token should be generated using one of the several great libraries
+        # for this purpose and stored in a database, this is just to show how Warden should be
+        # set up.
+        access_granted = (request.env["HTTP_ACCESS_TOKEN"] == 'youhavenoprivacyandnosecrets')
+        !access_granted ? fail!("Could not log in") : success!(access_granted)
+    end
+end
+
 
 class Looc < Sinatra::Base
+
+
+
   enable :sessions
   register Sinatra::Flash
   set :session_secret, "supersecret"
 
   use Warden::Manager do |manager|
-    manager.default_strategies :password
+    manager.default_strategies :password, :access_token
     manager.failure_app = self
   end
 
@@ -63,7 +84,7 @@ class Looc < Sinatra::Base
   end
 
   post '/auth/login' do
-    env['warden'].authenticate!
+    env['warden'].authenticate!(:password)
 
     flash[:success] = env['warden'].message
 
@@ -88,13 +109,13 @@ class Looc < Sinatra::Base
   end
 
   get '/form' do
-    env['warden'].authenticate!
+    env['warden'].authenticate!(:password)
     @user = current_user
     erb :form
   end
 
   post '/form' do
-
+    env['warden'].authenticate!(:password)
 	  data = PicData.new({
 	   :pic_name => params[:pic_name], 
 		 :main_categories => params[:main_categories], 
@@ -162,8 +183,14 @@ class Looc < Sinatra::Base
   end
 
   get '/submitted' do
-		env['warden'].authenticate!
+		env['warden'].authenticate!(:password)
   	erb :thank_you
+  end
+
+  get '/sushi.json' do
+    env['warden'].authenticate!(:access_token)
+    content_type :json
+    return {:sushi => ["Maguro", "Hamachi", "Uni", "Saba", "Ebi", "Sake", "Tai"]}.to_json
   end
 
 end
