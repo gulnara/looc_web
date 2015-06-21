@@ -94,70 +94,72 @@ class Looc < Sinatra::Base
   end
 
   post '/form' do
-	  data = PicData.new({
-	   :pic_name => params['pic_name'], 
-		 :main_categories => "main categories", 
-	   :sub_categories => "sub categories",
-	   :pic_url => "url for pic", 
-	   :pic_question_id => params['question_id'],
-	   :question0 => {
-        :Q => "How many spoons had something in them?",
-        :CorrectAnswer => 1,
-        :A => [
-            "Five",
-            "Four",
-            "Three",
-            "None of them",
-            "All of them"
-        ]
-    },
-	   :question1 => {
-        :Q => "How many spoons had something in them?",
-        :CorrectAnswer => 2,
-        :A => [
-            "Five",
-            "Four",
-            "Three",
-            "None of them",
-            "All of them"
-        ]
-    },
-	   :question2 => {
-        :Q => "How many spoons had something in them?",
-        :CorrectAnswer => 3,
-        :A => [
-            "Five",
-            "Four",
-            "Three",
-            "None of them",
-            "All of them"
-        ]
-    },
-	   :question3 => {
-        :Q => "How many spoons had something in them?",
-        :CorrectAnswer => 4,
-        :A => [
-            "Five",
-            "Four",
-            "Three",
-            "None of them",
-            "All of them"
-        ]
-    },
-	   :question4 => {
-        :Q => "How many spoons had something in them?",
-        :CorrectAnswer => 5,
-        :A => [
-            "Five",
-            "Four",
-            "Three",
-            "None of them",
-            "All of them"
-        ]
-    }
-		})
-		data.save
-	  redirect '/submitted'
+
+    puts params[:main_category]
+	 #  data = PicData.new({
+	 #   :pic_name => params['pic_name'], 
+		#  :main_categories => params["main_category"]["category_id"], 
+	 #   :sub_categories => "sub categories",
+	 #   :pic_url => "url for pic", 
+	 #   :pic_question_id => params['question_id'],
+	 #   :question0 => {
+  #       :Q => "How many spoons had something in them?",
+  #       :CorrectAnswer => 1,
+  #       :A => [
+  #           "Five",
+  #           "Four",
+  #           "Three",
+  #           "None of them",
+  #           "All of them"
+  #       ]
+  #   },
+	 #   :question1 => {
+  #       :Q => "How many spoons had something in them?",
+  #       :CorrectAnswer => 2,
+  #       :A => [
+  #           "Five",
+  #           "Four",
+  #           "Three",
+  #           "None of them",
+  #           "All of them"
+  #       ]
+  #   },
+	 #   :question2 => {
+  #       :Q => "How many spoons had something in them?",
+  #       :CorrectAnswer => 3,
+  #       :A => [
+  #           "Five",
+  #           "Four",
+  #           "Three",
+  #           "None of them",
+  #           "All of them"
+  #       ]
+  #   },
+	 #   :question3 => {
+  #       :Q => "How many spoons had something in them?",
+  #       :CorrectAnswer => 4,
+  #       :A => [
+  #           "Five",
+  #           "Four",
+  #           "Three",
+  #           "None of them",
+  #           "All of them"
+  #       ]
+  #   },
+	 #   :question4 => {
+  #       :Q => "How many spoons had something in them?",
+  #       :CorrectAnswer => 5,
+  #       :A => [
+  #           "Five",
+  #           "Four",
+  #           "Three",
+  #           "None of them",
+  #           "All of them"
+  #       ]
+  #   }
+		# })
+		# data.save
+	 #  redirect '/submitted'
   end
 
   get '/submitted' do
