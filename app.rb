@@ -95,71 +95,71 @@ class Looc < Sinatra::Base
 
   post '/form' do
 
-    puts params[:main_category]
-	 #  data = PicData.new({
-	 #   :pic_name => params['pic_name'], 
-		#  :main_categories => params["main_category"]["category_id"], 
-	 #   :sub_categories => "sub categories",
-	 #   :pic_url => "url for pic", 
-	 #   :pic_question_id => params['question_id'],
-	 #   :question0 => {
-  #       :Q => "How many spoons had something in them?",
-  #       :CorrectAnswer => 1,
-  #       :A => [
-  #           "Five",
-  #           "Four",
-  #           "Three",
-  #           "None of them",
-  #           "All of them"
-  #       ]
-  #   },
-	 #   :question1 => {
-  #       :Q => "How many spoons had something in them?",
-  #       :CorrectAnswer => 2,
-  #       :A => [
-  #           "Five",
-  #           "Four",
-  #           "Three",
-  #           "None of them",
-  #           "All of them"
-  #       ]
-  #   },
-	 #   :question2 => {
-  #       :Q => "How many spoons had something in them?",
-  #       :CorrectAnswer => 3,
-  #       :A => [
-  #           "Five",
-  #           "Four",
-  #           "Three",
-  #           "None of them",
-  #           "All of them"
-  #       ]
-  #   },
-	 #   :question3 => {
-  #       :Q => "How many spoons had something in them?",
-  #       :CorrectAnswer => 4,
-  #       :A => [
-  #           "Five",
-  #           "Four",
-  #           "Three",
-  #           "None of them",
-  #           "All of them"
-  #       ]
-  #   },
-	 #   :question4 => {
-  #       :Q => "How many spoons had something in them?",
-  #       :CorrectAnswer => 5,
-  #       :A => [
-  #           "Five",
-  #           "Four",
-  #           "Three",
-  #           "None of them",
-  #           "All of them"
-  #       ]
-  #   }
-		# })
-		# data.save
-	 #  redirect '/submitted'
+    puts 
+	  data = PicData.new({
+	   :pic_name => params[:pic_name], 
+		 :main_categories => params[:main_categories], 
+	   :sub_categories => params[:sub_categories],
+	   :pic_url => "url for pic", 
+	   :pic_question_id => params[:question_id],
+	   :question0 => {
+        :Q => params[:question_1],
+        :CorrectAnswer => 1,
+        :A => [
+            params[:q_1_a_1],
+            params[:q_1_a_2],
+            params[:q_1_a_3],
+            params[:q_1_a_4],
+            params[:q_1_a_5]
+        ]
+    },
+	   :question1 => {
+        :Q => params[:question_2],
+        :CorrectAnswer => 2,
+        :A => [
+            params[:q_2_a_1],
+            params[:q_2_a_2],
+            params[:q_2_a_3],
+            params[:q_2_a_4],
+            params[:q_2_a_5]
+        ]
+    },
+	   :question2 => {
+        :Q => params[:question_3],
+        :CorrectAnswer => 3,
+        :A => [
+            params[:q_3_a_1],
+            params[:q_3_a_2],
+            params[:q_3_a_3],
+            params[:q_3_a_4],
+            params[:q_3_a_5]
+        ]
+    },
+	   :question3 => {
+        :Q => params[:question_4],
+        :CorrectAnswer => 4,
+        :A => [
+            params[:q_4_a_1],
+            params[:q_4_a_2],
+            params[:q_4_a_3],
+            params[:q_4_a_4],
+            params[:q_4_a_5]
+        ]
+    },
+	   :question4 => {
+        :Q => params[:question_5],
+        :CorrectAnswer => 5,
+        :A => [
+            params[:q_5_a_1],
+            params[:q_5_a_2],
+            params[:q_5_a_3],
+            params[:q_5_a_4],
+            params[:q_5_a_5]
+        ]
+    }
+		})
+		data.save
+	  redirect '/submitted'
   end
 
   get '/submitted' do
