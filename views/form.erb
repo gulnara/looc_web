@@ -1,14 +1,11 @@
 <div class="page-header">
-  <h1>Form for Q&As</h1>
+  <h1>Step 2</h1>
+  <h2>Form for Q&As</h2>
 </div>
 
-<form class="form-horizontal" action='/form' method="POST">
+<form class="form-horizontal" id="main_form" action='/form' method="POST">
 	
-  <form action='/upload' method='post' accept-charset="utf-8" enctype="multipart/form-data">
-    <label for='content_file'>Image</label>
-    <input type="file" name="content[file]" id="content_file" />
-    <button type='submit'>Save</button>
-  </form>
+  <img src="<%=@img_url%>">
 
   <div class="form-group">
     <label for="pic_name" class="col-sm-2 control-label">Picture Name</label>
@@ -348,6 +345,62 @@
     </label>
     <label for="q_5_a_5" class="col-sm-2 control-label">Answer 5</label>
   </div>
+
+   <!-- Question 6 -->
+
+  <h4>Question 6</h4>
+  
+  <div class="form-group">
+    <label for="question_6" class="col-sm-2 control-label">Question 6</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="question_6" name="question_6" placeholder="Question 6">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions6" id="q_6_r_1" value="1"> 1 </br>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="q_6_a_1" id="q_6_a_1" placeholder="Answer 1">
+      </div>
+    </label>
+    <label for="q_6_a_1" class="col-sm-2 control-label">Answer 1</label>
+  </div>
+  <div class="form-group">
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions6" id="q_6_r_2" value="2"> 2 </br>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="q_6_a_2" id="q_6_a_2" placeholder="Answer 2">
+      </div>
+    </label>
+    <label for="q_6_a_2" class="col-sm-2 control-label">Answer 2</label>
+  </div>
+  <div class="form-group">
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions6" id="q_6_r_3" value="3"> 3 </br>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="q_6_a_3" id="q_6_a_3" placeholder="Answer 3">
+      </div>
+    </label>
+    <label for="q_6_a_3" class="col-sm-2 control-label">Answer 3</label>
+  </div>
+  <div class="form-group">
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions6" id="q_6_r_4" value="4"> 4 </br>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="q_6_a_4" id="q_6_a4" placeholder="Answer 4">
+      </div>
+    </label>
+    <label for="q_6_a_4" class="col-sm-2 control-label">Answer 4</label>
+  </div>
+  <div class="form-group">
+    <label class="radio-inline">
+      <input type="radio" name="inlineRadioOptions5" id="q_6_r_5" value="5"> 5 </br>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="q_6_a_5" id="q_6_a5" placeholder="Answer 5">
+      </div>
+    </label>
+    <label for="q_6_a_5" class="col-sm-2 control-label">Answer 5</label>
+  </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <button type="submit" class="btn btn-primary">Save & Submit</button>
@@ -355,7 +408,4 @@
   </div>
 </form>
 
-<script>
-
-</script>
 

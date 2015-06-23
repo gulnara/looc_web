@@ -14,6 +14,7 @@ class PicData
   key :question2, Hash
   key :question3, Hash
   key :question4, Hash
+  key :question5, Hash
   timestamps!
 
 end

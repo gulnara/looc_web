@@ -109,6 +109,7 @@ class Looc < Sinatra::Base
   get '/form' do
     env['warden'].authenticate!(:password)
     @user = current_user
+    @img_url = session["img_url"]
     erb :form
   end
 
@@ -118,7 +119,7 @@ class Looc < Sinatra::Base
 	   :pic_name => params[:pic_name], 
 		 :main_categories => params[:main_categories], 
 	   :sub_categories => params[:sub_categories],
-	   :pic_url => "url for pic", 
+	   :pic_url => session["img_url"], 
 	   :pic_question_id => params[:question_id],
 	   :question0 => {
         :Q => params[:question_1],
@@ -174,14 +175,31 @@ class Looc < Sinatra::Base
             params[:q_5_a_4],
             params[:q_5_a_5]
         ]
+    },
+      :question5 => {
+        :Q => params[:question_6],
+        :CorrectAnswer => params[:inlineRadioOptions6],
+        :A => [
+            params[:q_6_a_1],
+            params[:q_6_a_2],
+            params[:q_6_a_3],
+            params[:q_6_a_4],
+            params[:q_6_a_5]
+        ]
     }
 		})
 		data.save
+    session["img_url"] = nil 
 	  redirect '/submitted'
   end
 
+  get '/upload_img' do
+    erb :upload_img
+  end
+
   post '/upload' do
-    upload(params[:content]['file'][:filename], params[:content]['file'][:tempfile])
+    url = upload(params[:content]['file'][:filename], params[:content]['file'][:tempfile])
+    session["img_url"] = url
     redirect '/form'
   end
 
