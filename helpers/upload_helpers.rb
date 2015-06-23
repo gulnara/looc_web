@@ -10,8 +10,10 @@ module UploadHelpers
       credentials: Aws::Credentials.new(akid, secret),
       region: 'us-east-1'
     )
+
+    key = Time.now.to_s.delete(' ')+filename
      
-    obj = s3.bucket(bucket).object(filename)
+    obj = s3.bucket(bucket).object(key)
     obj.upload_file(file, acl:'public-read')
 
     return obj.public_url

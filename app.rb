@@ -123,7 +123,7 @@ class Looc < Sinatra::Base
 	   :pic_question_id => params[:question_id],
 	   :question0 => {
         :Q => params[:question_1],
-        :CorrectAnswer => params[:inlineRadioOptions1],
+        :CorrectAnswer => params[:inlineRadioOptions1].to_i,
         :A => [
             params[:q_1_a_1],
             params[:q_1_a_2],
@@ -134,7 +134,7 @@ class Looc < Sinatra::Base
     },
 	   :question1 => {
         :Q => params[:question_2],
-        :CorrectAnswer => params[:inlineRadioOptions2],
+        :CorrectAnswer => params[:inlineRadioOptions2].to_i,
         :A => [
             params[:q_2_a_1],
             params[:q_2_a_2],
@@ -145,7 +145,7 @@ class Looc < Sinatra::Base
     },
 	   :question2 => {
         :Q => params[:question_3],
-        :CorrectAnswer => params[:inlineRadioOptions3],
+        :CorrectAnswer => params[:inlineRadioOptions3].to_i,
         :A => [
             params[:q_3_a_1],
             params[:q_3_a_2],
@@ -156,7 +156,7 @@ class Looc < Sinatra::Base
     },
 	   :question3 => {
         :Q => params[:question_4],
-        :CorrectAnswer => params[:inlineRadioOptions4],
+        :CorrectAnswer => params[:inlineRadioOptions4].to_i,
         :A => [
             params[:q_4_a_1],
             params[:q_4_a_2],
@@ -167,7 +167,7 @@ class Looc < Sinatra::Base
     },
 	   :question4 => {
         :Q => params[:question_5],
-        :CorrectAnswer => params[:inlineRadioOptions5],
+        :CorrectAnswer => params[:inlineRadioOptions5].to_i,
         :A => [
             params[:q_5_a_1],
             params[:q_5_a_2],
@@ -178,7 +178,7 @@ class Looc < Sinatra::Base
     },
       :question5 => {
         :Q => params[:question_6],
-        :CorrectAnswer => params[:inlineRadioOptions6],
+        :CorrectAnswer => params[:inlineRadioOptions6].to_i,
         :A => [
             params[:q_6_a_1],
             params[:q_6_a_2],
