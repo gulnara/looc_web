@@ -5,6 +5,7 @@ require 'uri'
 require 'json'
 require 'warden'
 require 'sinatra/flash'
+require 'aws-sdk'
 
 
 include Mongo
@@ -16,9 +17,10 @@ MongoMapper.database = URI.parse(mongo_url).path.gsub(/^\//, '')
 require './models/user'
 require './models/data'
 require './helpers/warden_helpers'
+require './helpers/upload_helpers'
 
 include WardenHelpers
-
+include UploadHelpers
 
 Warden::Strategies.add(:password) do
   def valid?
@@ -43,6 +45,8 @@ Warden::Strategies.add(:access_token) do
     def valid?
         request.env["HTTP_ACCESS_TOKEN"].is_a?(String)
     end
+
+    # ToDo add logic to dycript the token
 
     def authenticate!
         access_granted = (request.env["HTTP_ACCESS_TOKEN"] == ENV['SECRET_TOKEN'])
@@ -174,6 +178,11 @@ class Looc < Sinatra::Base
 		})
 		data.save
 	  redirect '/submitted'
+  end
+
+  post '/upload' do
+    upload(params[:content]['file'][:filename], params[:content]['file'][:tempfile])
+    redirect '/form'
   end
 
   get '/submitted' do

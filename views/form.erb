@@ -4,7 +4,11 @@
 
 <form class="form-horizontal" action='/form' method="POST">
 	
-  <input name="file" type="file" />
+  <form action='/upload' method='post' accept-charset="utf-8" enctype="multipart/form-data">
+    <label for='content_file'>Image</label>
+    <input type="file" name="content[file]" id="content_file" />
+    <button type='submit'>Save</button>
+  </form>
 
   <div class="form-group">
     <label for="pic_name" class="col-sm-2 control-label">Picture Name</label>
@@ -350,3 +354,8 @@
     </div>
   </div>
 </form>
+
+<script>
+
+</script>
+
