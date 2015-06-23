@@ -208,10 +208,13 @@ class Looc < Sinatra::Base
   	erb :thank_you
   end
 
-  get '/sushi.json' do
+  get '/data/:category' do
     env['warden'].authenticate!(:access_token)
+    category = params[:category]
+    all_data = PicData.all
+    data = all_data.select{|a| a.main_categories.include? category}
     content_type :json
-    return {:sushi => ["Maguro", "Hamachi", "Uni", "Saba", "Ebi", "Sake", "Tai"]}.to_json
+    return {:data => data}.to_json
   end
 
 end
