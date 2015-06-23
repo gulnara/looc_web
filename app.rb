@@ -194,10 +194,12 @@ class Looc < Sinatra::Base
   end
 
   get '/upload_img' do
+    env['warden'].authenticate!(:password)
     erb :upload_img
   end
 
   post '/upload' do
+    env['warden'].authenticate!(:password)
     url = upload(params[:content]['file'][:filename], params[:content]['file'][:tempfile])
     session["img_url"] = url
     redirect '/form'
