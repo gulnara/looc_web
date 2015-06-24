@@ -89,7 +89,7 @@ class Looc < Sinatra::Base
 
     if session[:return_to].nil?
     	puts "you are loged in"
-      redirect '/form'
+      redirect '/upload_img'
     else
       redirect session[:return_to]
       puts "you are not loged in"
