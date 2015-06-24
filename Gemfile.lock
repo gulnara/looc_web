@@ -27,6 +27,7 @@ GEM
     jmespath (1.0.2)
       multi_json (~> 1.0)
     json (1.8.3)
+    jwt (1.5.1)
     minitest (5.7.0)
     mongo (1.12.3)
       bson (= 1.12.3)
@@ -68,6 +69,7 @@ DEPENDENCIES
   bcrypt-ruby (= 3.0.1)
   bson
   bson_ext
+  jwt
   mongo
   mongo_mapper
   sinatra

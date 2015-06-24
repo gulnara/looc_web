@@ -6,7 +6,7 @@ require 'json'
 require 'warden'
 require 'sinatra/flash'
 require 'aws-sdk'
-
+require 'jwt'
 
 include Mongo
 
@@ -49,7 +49,8 @@ Warden::Strategies.add(:access_token) do
     # ToDo add logic to dycript the token
 
     def authenticate!
-        access_granted = (request.env["HTTP_ACCESS_TOKEN"] == ENV['SECRET_TOKEN'])
+        vars = JWT.decode(request.env["HTTP_ACCESS_TOKEN"], ENV['SECRET_TOKEN']) rescue 'Invalid token' 
+        access_granted = (vars[0]["user_id"]==ENV['ADMIN_ID'])
         !access_granted ? fail!("Could not log in") : success!(access_granted)
     end
 end

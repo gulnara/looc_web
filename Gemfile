@@ -12,3 +12,4 @@ gem "mongo_mapper"
 gem 'bcrypt-ruby', '3.0.1'
 gem 'warden', '1.2.3'
 gem 'aws-sdk', '~> 2'
+gem 'jwt'
