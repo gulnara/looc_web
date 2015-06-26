@@ -116,81 +116,86 @@ class Looc < Sinatra::Base
 
   post '/form' do
     env['warden'].authenticate!(:password)
-	  data = PicData.new({
-	   :pic_name => params[:pic_name], 
-		 :main_categories => params[:main_categories], 
-	   :sub_categories => params[:sub_categories],
-	   :pic_url => session["img_url"], 
-	   :question0 => {
-        :Q => params[:question_1],
-        :CorrectAnswer => params[:inlineRadioOptions1].to_i,
-        :A => [
-            params[:q_1_a_1],
-            params[:q_1_a_2],
-            params[:q_1_a_3],
-            params[:q_1_a_4],
-            params[:q_1_a_5]
-        ]
-    },
-	   :question1 => {
-        :Q => params[:question_2],
-        :CorrectAnswer => params[:inlineRadioOptions2].to_i,
-        :A => [
-            params[:q_2_a_1],
-            params[:q_2_a_2],
-            params[:q_2_a_3],
-            params[:q_2_a_4],
-            params[:q_2_a_5]
-        ]
-    },
-	   :question2 => {
-        :Q => params[:question_3],
-        :CorrectAnswer => params[:inlineRadioOptions3].to_i,
-        :A => [
-            params[:q_3_a_1],
-            params[:q_3_a_2],
-            params[:q_3_a_3],
-            params[:q_3_a_4],
-            params[:q_3_a_5]
-        ]
-    },
-	   :question3 => {
-        :Q => params[:question_4],
-        :CorrectAnswer => params[:inlineRadioOptions4].to_i,
-        :A => [
-            params[:q_4_a_1],
-            params[:q_4_a_2],
-            params[:q_4_a_3],
-            params[:q_4_a_4],
-            params[:q_4_a_5]
-        ]
-    },
-	   :question4 => {
-        :Q => params[:question_5],
-        :CorrectAnswer => params[:inlineRadioOptions5].to_i,
-        :A => [
-            params[:q_5_a_1],
-            params[:q_5_a_2],
-            params[:q_5_a_3],
-            params[:q_5_a_4],
-            params[:q_5_a_5]
-        ]
-    },
-      :question5 => {
-        :Q => params[:question_6],
-        :CorrectAnswer => params[:inlineRadioOptions6].to_i,
-        :A => [
-            params[:q_6_a_1],
-            params[:q_6_a_2],
-            params[:q_6_a_3],
-            params[:q_6_a_4],
-            params[:q_6_a_5]
-        ]
-    }
-		})
-		data.save
-    session["img_url"] = nil 
-	  redirect '/submitted'
+    if params.length < 45
+      flash[:fail] = "You didn't fill all the fields"
+      redirect '/form'
+    else
+  	  data = PicData.new({
+  	   :pic_name => params[:pic_name], 
+  		 :main_categories => params[:main_categories], 
+  	   :sub_categories => params[:sub_categories],
+  	   :pic_url => session["img_url"], 
+  	   :question0 => {
+          :Q => params[:question_1],
+          :CorrectAnswer => params[:inlineRadioOptions1].to_i,
+          :A => [
+              params[:q_1_a_1],
+              params[:q_1_a_2],
+              params[:q_1_a_3],
+              params[:q_1_a_4],
+              params[:q_1_a_5]
+          ]
+      },
+  	   :question1 => {
+          :Q => params[:question_2],
+          :CorrectAnswer => params[:inlineRadioOptions2].to_i,
+          :A => [
+              params[:q_2_a_1],
+              params[:q_2_a_2],
+              params[:q_2_a_3],
+              params[:q_2_a_4],
+              params[:q_2_a_5]
+          ]
+      },
+  	   :question2 => {
+          :Q => params[:question_3],
+          :CorrectAnswer => params[:inlineRadioOptions3].to_i,
+          :A => [
+              params[:q_3_a_1],
+              params[:q_3_a_2],
+              params[:q_3_a_3],
+              params[:q_3_a_4],
+              params[:q_3_a_5]
+          ]
+      },
+  	   :question3 => {
+          :Q => params[:question_4],
+          :CorrectAnswer => params[:inlineRadioOptions4].to_i,
+          :A => [
+              params[:q_4_a_1],
+              params[:q_4_a_2],
+              params[:q_4_a_3],
+              params[:q_4_a_4],
+              params[:q_4_a_5]
+          ]
+      },
+  	   :question4 => {
+          :Q => params[:question_5],
+          :CorrectAnswer => params[:inlineRadioOptions5].to_i,
+          :A => [
+              params[:q_5_a_1],
+              params[:q_5_a_2],
+              params[:q_5_a_3],
+              params[:q_5_a_4],
+              params[:q_5_a_5]
+          ]
+      },
+        :question5 => {
+          :Q => params[:question_6],
+          :CorrectAnswer => params[:inlineRadioOptions6].to_i,
+          :A => [
+              params[:q_6_a_1],
+              params[:q_6_a_2],
+              params[:q_6_a_3],
+              params[:q_6_a_4],
+              params[:q_6_a_5]
+          ]
+      }
+  		})
+  		data.save
+      session["img_url"] = nil 
+  	  redirect '/submitted'
+    end
   end
 
   get '/upload_img' do
