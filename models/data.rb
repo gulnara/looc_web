@@ -8,7 +8,6 @@ class PicData
 	key :main_categories, Array
   key :sub_categories, Array
   key :pic_url, String
-  key :pic_question_id, Integer
   key :question0, Hash
   key :question1, Hash
   key :question2, Hash

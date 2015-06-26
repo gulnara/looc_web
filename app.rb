@@ -121,7 +121,6 @@ class Looc < Sinatra::Base
 		 :main_categories => params[:main_categories], 
 	   :sub_categories => params[:sub_categories],
 	   :pic_url => session["img_url"], 
-	   :pic_question_id => params[:question_id],
 	   :question0 => {
         :Q => params[:question_1],
         :CorrectAnswer => params[:inlineRadioOptions1].to_i,
