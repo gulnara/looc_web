@@ -117,3 +117,39 @@ output:
    ]
 }
 ```
+
+**To get the summary of how many questions in each category**
+
+Endpoint: `/count`
+
+Authorization header required:  
+
+```
+access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicGV0ZXJrYWlzZXJ0YWxlbnRAZ21haWwuY29tIn0.05cbRebyfjhEutR329jrSimWhgvVU7qX_w_vx-17W5s
+
+```
+
+Method: `get`
+
+Parameters: none
+
+
+```
+curl -i -H "access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicGV0ZXJrYWlzZXJ0YWxlbnRAZ21haWwuY29tIn0.05cbRebyfjhEutR329jrSimWhgvVU7qX_w_vx-17W5s"\
+  -X GET http://quiet-plateau-6449.herokuapp.com/count
+
+```
+
+output:
+
+```
+{"count":
+   {
+      "Medicine & Science":2,
+      "Transportation":1,
+      "Animals & Pets":2,
+      "Lifestyle":1,
+      "Illustrations & Vector Art":1
+   }
+}
+```
