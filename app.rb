@@ -215,6 +215,7 @@ class Looc < Sinatra::Base
   	erb :thank_you
   end
 
+  # API call to get questions for a specific category
   get '/data/:category' do
     env['warden'].authenticate!(:access_token)
     category = params[:category]
@@ -222,6 +223,25 @@ class Looc < Sinatra::Base
     data = all_data.select{|a| a.main_categories.include? category}
     content_type :json
     return {:data => data}.to_json
+  end
+
+  # API call to get count of how many questions in each category
+  get '/count' do
+    env['warden'].authenticate!(:access_token)
+    all_data = PicData.all
+    count = {}
+    all_data.each do |question|
+      puts question.main_categories.class
+      question.main_categories.each do |category|
+        if count.include?(category)
+          count[category] += 1
+        else
+          count[category] = 1
+        end
+      end
+    end
+    content_type :json
+    return {:count => count}.to_json
   end
 
 end
