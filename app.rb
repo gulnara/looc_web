@@ -245,6 +245,7 @@ class Looc < Sinatra::Base
   end
 
   # API call to get random 6 categories with a single question in each
+  # Algorith will be much faster if we allowed only one main category
   get '/random' do
     # env['warden'].authenticate!(:access_token)
     random_data = []
@@ -253,7 +254,9 @@ class Looc < Sinatra::Base
     while temp < 5 do 
       rand = Random.rand(0..(PicData.count-1))
       r = PicData.skip(rand).first
-      if !categories.include?(r[category])
+      item_categories = r[category]
+      unique = item_categories-categories
+      if !unique.empty?
         temp += 1
         random_data << r
       else
