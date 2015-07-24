@@ -247,24 +247,30 @@ class Looc < Sinatra::Base
   # Algorith will be much faster if we allowed only one main category
   get '/random' do
     # env['warden'].authenticate!(:access_token)
-    random_data = []
-    categories = []
-    temp = 0
-    while temp < 6 do 
-      rand = Random.rand(0..(PicData.count-1))
-      r = PicData.skip(rand).first
-      item_categories = r.main_categories
-      unique = item_categories-categories
-      puts unique
-      if !unique.empty?
-        temp += 1
-        random_data << r
-      else
-        puts "This category has been already selected"
+    all_data = PicData.all
+    if all_data.count > 6
+      random_data = []
+      categories = []
+      temp = 0
+      while temp < 6 do 
+        rand = Random.rand(0..(PicData.count-1))
+        r = PicData.skip(rand).first
+        item_categories = r.main_categories
+        unique = item_categories-categories
+        if !unique.empty?        temp += 1
+          random_data << r
+          item_categories.each do |b|
+            categories << b
+          end
+        else
+          puts "This category has been already selected"
+        end
       end
+      content_type :json
+      return {:random_data => random_data}.to_json
+    else
+      return{:msg => "Not enough data"}.to_json
     end
-    content_type :json
-    return {:random_data => random_data}.to_json
   end
 
 end
