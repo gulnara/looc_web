@@ -244,32 +244,27 @@ class Looc < Sinatra::Base
   end
 
   # API call to get random 6 categories with a single question in each
-  # Algorith will be much faster if we allowed only one main category
   get '/random' do
     # env['warden'].authenticate!(:access_token)
-    all_data = PicData.all
-    if all_data.count > 6
-      random_data = []
-      categories = []
-      temp = 0
-      while temp < 6 do 
-        rand = Random.rand(0..(PicData.count-1))
-        r = PicData.skip(rand).first
-        item_categories = r.main_categories
-        unique = item_categories-categories
-        if !unique.empty?        temp += 1
-          random_data << r
-          item_categories.each do |b|
-            categories << b
-          end
-        else
-          puts "This category has been already selected"
-        end
+    category_map = {}
+    items = PicData.all
+    items.each do |item|
+      item.main_categories.each do |cat|
+        category_map[cat] ||= []
+        category_map[cat].push item
+      end
+    end
+    random_data = []
+    if category_map.length < 6
+      return{:msg => "Not enough data"}.to_json
+    else
+      shuffled = category_map.keys.shuffle
+      six_cats = shuffled[0..5]
+      six_cats.each do |i|
+        random_data<<category_map[i].shuffle[0]
       end
       content_type :json
       return {:random_data => random_data}.to_json
-    else
-      return{:msg => "Not enough data"}.to_json
     end
   end
 
