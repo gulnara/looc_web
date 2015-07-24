@@ -250,11 +250,12 @@ class Looc < Sinatra::Base
     random_data = []
     categories = []
     temp = 0
-    while temp < 5 do 
+    while temp < 6 do 
       rand = Random.rand(0..(PicData.count-1))
       r = PicData.skip(rand).first
       item_categories = r.main_categories
       unique = item_categories-categories
+      puts unique
       if !unique.empty?
         temp += 1
         random_data << r
