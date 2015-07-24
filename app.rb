@@ -259,7 +259,7 @@ class Looc < Sinatra::Base
         temp += 1
         random_data << r
       else
-        skip
+        puts "This category has been already selected"
       end
     end
     content_type :json
