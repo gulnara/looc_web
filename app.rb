@@ -244,10 +244,24 @@ class Looc < Sinatra::Base
     return {:count => count}.to_json
   end
 
+  # API call to get random 6 categories with a single question in each
+  get '/random' do
+    # env['warden'].authenticate!(:access_token)
+    random_data = []
+    categories = []
+    temp = 0
+    while temp < 5 do 
+      rand = Random.rand(0..(PicData.count-1))
+      r = PicData.skip(rand).first
+      if !categories.include?(r[category])
+        temp += 1
+        random_data << r
+      else
+        skip
+      end
+    end
+    content_type :json
+    return {:random_data => random_data}.to_json
+  end
+
 end
-
-
-
-
-
-
