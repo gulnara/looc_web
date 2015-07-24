@@ -245,7 +245,7 @@ class Looc < Sinatra::Base
 
   # API call to get random 6 categories with a single question in each
   get '/random' do
-    # env['warden'].authenticate!(:access_token)
+    env['warden'].authenticate!(:access_token)
     category_map = {}
     items = PicData.all
     items.each do |item|
