@@ -231,7 +231,6 @@ class Looc < Sinatra::Base
     all_data = PicData.all
     count = {}
     all_data.each do |question|
-      puts question.main_categories.class
       question.main_categories.each do |category|
         if count.include?(category)
           count[category] += 1
@@ -254,7 +253,7 @@ class Looc < Sinatra::Base
     while temp < 5 do 
       rand = Random.rand(0..(PicData.count-1))
       r = PicData.skip(rand).first
-      item_categories = r[category]
+      item_categories = r.main_categories
       unique = item_categories-categories
       if !unique.empty?
         temp += 1
